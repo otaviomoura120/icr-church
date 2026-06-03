@@ -6,7 +6,7 @@ import com.devhouse.adapters.inbound.http.dto.request.UpdateFamilyRequestDto;
 import com.devhouse.adapters.inbound.http.dto.response.CreateFamilyResponseDto;
 import com.devhouse.adapters.inbound.http.dto.response.FamilyPageResponseDto;
 import com.devhouse.core.model.Family;
-import com.devhouse.core.model.FamilySearchQuery;
+import com.devhouse.core.model.SearchQuery;
 import com.devhouse.core.model.PagedResult;
 import com.devhouse.core.model.response.FamilyResponse;
 import com.devhouse.core.ports.inbound.family.CreateFamilyInboundPort;
@@ -71,13 +71,7 @@ public class FamilyController {
                                                        @QueryValue @Nullable String sortDirection,
                                                        @QueryValue @Nullable Integer page,
                                                        @QueryValue @Nullable Integer size) {
-        FamilySearchQuery query = new FamilySearchQuery(
-                search,
-                page != null ? page : 0,
-                size != null ? size : 20,
-                sortBy != null ? sortBy : "name",
-                sortDirection != null ? sortDirection : "ASC"
-        );
+        SearchQuery query = SearchQuery.withDefaults(search, page, size, sortBy, sortDirection);
         PagedResult<FamilyResponse> result = searchFamilyInboundPort.execute(query);
         FamilyPageResponseDto responseDto = familyConverter.toPageResponse(result);
         return HttpResponse.ok(responseDto);

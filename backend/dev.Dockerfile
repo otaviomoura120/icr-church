@@ -35,7 +35,7 @@ RUN useradd -m -u ${UID} dev
 RUN mkdir -p /home/dev/.ssh && \
     chmod 700 /home/dev/.ssh && \
     mkdir -p /home/dev/.npm-global && \
-    mkdir -p /home/dev/.claude &&  \
+    mkdir -p /home/dev/claude &&  \
     chown -R dev:dev /home/dev
 
 USER dev
@@ -45,6 +45,7 @@ ENV HOME=/home/dev
 # npm global no HOME do usuário
 ENV NPM_CONFIG_PREFIX=/home/dev/.npm-global
 ENV PATH=$PATH:/home/dev/.npm-global/bin
+ENV CLAUDE_CONFIG_DIR=/home/dev/claude
 
 # Instala Codex
 RUN npm install -g pnpm

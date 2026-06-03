@@ -16,4 +16,24 @@ public class CellProfile {
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public Instant getUpdatedDate() {
+        return updatedDate;
+    }
 }

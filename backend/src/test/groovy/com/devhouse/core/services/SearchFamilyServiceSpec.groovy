@@ -2,7 +2,7 @@ package com.devhouse.core.services
 
 import com.devhouse.core.model.Address
 import com.devhouse.core.model.Family
-import com.devhouse.core.model.FamilySearchQuery
+import com.devhouse.core.model.SearchQuery
 import com.devhouse.core.model.PagedResult
 import com.devhouse.core.model.response.FamilyResponse
 import com.devhouse.core.ports.outbound.FamilyRepository
@@ -18,7 +18,7 @@ class SearchFamilyServiceSpec extends Specification {
 
     void "should return paged result of family responses"() {
         given:
-        FamilySearchQuery query = new FamilySearchQuery("Silva", 0, 10, "name", "ASC")
+        SearchQuery query = new SearchQuery("Silva", 0, 10, "name", "ASC")
         Address address = new Address("Street", "12345", "BR", "SP", "City", "Neighborhood")
         List<Family> families = [new Family(1L, "Silva", address, 0, Instant.now(), Instant.now())]
         PagedResult<Family> pagedFamilies = new PagedResult<>(families, 1L, 1, 0, 10)
@@ -39,7 +39,7 @@ class SearchFamilyServiceSpec extends Specification {
 
     void "should return empty result when no families match"() {
         given:
-        FamilySearchQuery query = new FamilySearchQuery("Nonexistent", 0, 10, "name", "ASC")
+        SearchQuery query = new SearchQuery("Nonexistent", 0, 10, "name", "ASC")
         PagedResult<Family> pagedFamilies = new PagedResult<>([], 0L, 0, 0, 10)
         familyRepository.findAll(query) >> pagedFamilies
 

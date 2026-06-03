@@ -1,4 +1,8 @@
 package com.devhouse.core.model.response;
 
-public record FamilyResponse(Long id, String name) {
+import com.devhouse.core.model.Address;
+
+import java.time.Instant;
+
+public record FamilyResponse(Long id, String name, Integer version, Address address, Instant createdAt, Instant updatedAt) {
 }

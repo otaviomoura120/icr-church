@@ -1,8 +1,8 @@
 package com.devhouse.core.services.family;
 
 import com.devhouse.core.model.Family;
-import com.devhouse.core.model.FamilySearchQuery;
 import com.devhouse.core.model.PagedResult;
+import com.devhouse.core.model.SearchQuery;
 import com.devhouse.core.model.response.FamilyResponse;
 import com.devhouse.core.ports.inbound.family.SearchFamilyInboundPort;
 import com.devhouse.core.ports.outbound.FamilyRepository;
@@ -18,7 +18,7 @@ public class SearchFamilyService implements SearchFamilyInboundPort {
     }
 
     @Override
-    public PagedResult<FamilyResponse> execute(FamilySearchQuery query) {
+    public PagedResult<FamilyResponse> execute(SearchQuery query) {
         PagedResult<Family> result = familyRepository.findAll(query);
         List<FamilyResponse> responses = result.content().stream()
                 .map(Family::toResponse)

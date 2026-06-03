@@ -2,8 +2,10 @@ package com.devhouse.adapters.inbound.http.converter;
 
 import com.devhouse.adapters.inbound.http.dto.request.CreateFamilyRequestDto;
 import com.devhouse.adapters.inbound.http.dto.request.UpdateFamilyRequestDto;
+import com.devhouse.adapters.inbound.http.dto.response.AddressResponseDto;
 import com.devhouse.adapters.inbound.http.dto.response.CreateFamilyResponseDto;
 import com.devhouse.adapters.inbound.http.dto.response.FamilyPageResponseDto;
+import com.devhouse.core.model.Address;
 import com.devhouse.core.model.Family;
 import com.devhouse.core.model.PagedResult;
 import com.devhouse.core.model.response.FamilyResponse;
@@ -22,13 +24,32 @@ public class FamilyConverter {
     }
 
     public CreateFamilyResponseDto toResponse(FamilyResponse familyResponse) {
-        return new CreateFamilyResponseDto(familyResponse.id(), familyResponse.name());
+        return new CreateFamilyResponseDto(
+                familyResponse.id(),
+                familyResponse.name(),
+                familyResponse.version(),
+                toAddressResponse(familyResponse.address()),
+                familyResponse.createdAt(),
+                familyResponse.updatedAt()
+        );
     }
 
     public FamilyPageResponseDto toPageResponse(PagedResult<FamilyResponse> page) {
         List<CreateFamilyResponseDto> items = page.content().stream()
-                .map(r -> new CreateFamilyResponseDto(r.id(), r.name()))
+                .map(this::toResponse)
                 .toList();
         return new FamilyPageResponseDto(items, page.totalElements(), page.totalPages(), page.page(), page.size());
+    }
+
+    private AddressResponseDto toAddressResponse(Address address) {
+        if (address == null) return null;
+        return new AddressResponseDto(
+                address.getStreet(),
+                address.getZipCode(),
+                address.getCountry(),
+                address.getState(),
+                address.getCity(),
+                address.getNeighborhood()
+        );
     }
 }

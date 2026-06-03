@@ -29,7 +29,7 @@ public class Family {
     }
 
     public FamilyResponse toResponse() {
-        return new FamilyResponse(id, name);
+        return new FamilyResponse(id, name, version, address, createdDate, updatedDate);
     }
 
     public Long getId() {

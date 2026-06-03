@@ -35,6 +35,13 @@ public class FamilyEntityJpa {
         }
     }
 
+    public static FamilyEntityJpa stub(Long id) {
+        if (id == null) return null;
+        FamilyEntityJpa entity = new FamilyEntityJpa();
+        entity.setId(id);
+        return entity;
+    }
+
     public static FamilyEntityJpa from(Family family) {
         if (family == null) {
             return null;

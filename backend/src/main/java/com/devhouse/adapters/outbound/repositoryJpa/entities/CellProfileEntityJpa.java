@@ -1,5 +1,6 @@
 package com.devhouse.adapters.outbound.repositoryJpa.entities;
 
+import com.devhouse.core.model.CellProfile;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -32,4 +33,61 @@ public class CellProfileEntityJpa {
         }
     }
 
+    public static CellProfileEntityJpa from(CellProfile cellProfile) {
+        if (cellProfile == null) return null;
+        CellProfileEntityJpa entity = new CellProfileEntityJpa();
+        entity.setId(cellProfile.getId());
+        entity.version = cellProfile.getVersion();
+        entity.setName(cellProfile.getName());
+        entity.setCreatedAt(cellProfile.getCreatedDate());
+        entity.setUpdatedAt(cellProfile.getUpdatedDate());
+        return entity;
+    }
+
+    public static CellProfileEntityJpa stub(Long id) {
+        if (id == null) return null;
+        CellProfileEntityJpa entity = new CellProfileEntityJpa();
+        entity.setId(id);
+        return entity;
+    }
+
+    public CellProfile toModel() {
+        return new CellProfile(id, version, name, createdAt, updatedAt);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }

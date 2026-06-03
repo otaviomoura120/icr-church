@@ -2,8 +2,8 @@ package com.devhouse.adapters.outbound.repositoryJpa;
 
 import com.devhouse.adapters.outbound.repositoryJpa.entities.FamilyEntityJpa;
 import com.devhouse.core.model.Family;
-import com.devhouse.core.model.FamilySearchQuery;
 import com.devhouse.core.model.PagedResult;
+import com.devhouse.core.model.SearchQuery;
 import com.devhouse.core.ports.outbound.FamilyRepository;
 import com.devhouse.shared.JpqlUtils;
 import io.micronaut.transaction.annotation.ReadOnly;
@@ -60,7 +60,7 @@ public class FamilyRepositoryJpa implements FamilyRepository {
 
     @Override
     @ReadOnly
-    public PagedResult<Family> findAll(FamilySearchQuery query) {
+    public PagedResult<Family> findAll(SearchQuery query) {
         String sortBy = ALLOWED_SORT_FIELDS.contains(query.sortBy()) ? query.sortBy() : "name";
         String sortDirection = "DESC".equalsIgnoreCase(query.sortDirection()) ? "DESC" : "ASC";
 
