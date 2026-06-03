@@ -40,6 +40,8 @@ RUN mkdir -p /home/dev/.ssh && \
 
 USER dev
 
+ENV HOME=/home/dev
+
 # npm global no HOME do usuário
 ENV NPM_CONFIG_PREFIX=/home/dev/.npm-global
 ENV PATH=$PATH:/home/dev/.npm-global/bin

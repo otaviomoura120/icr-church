@@ -5,6 +5,7 @@ import com.devhouse.core.model.Family;
 import com.devhouse.core.model.FamilySearchQuery;
 import com.devhouse.core.model.PagedResult;
 import com.devhouse.core.ports.outbound.FamilyRepository;
+import com.devhouse.shared.JpqlUtils;
 import io.micronaut.transaction.annotation.ReadOnly;
 import io.micronaut.transaction.annotation.Transactional;
 import jakarta.inject.Singleton;
@@ -63,17 +64,19 @@ public class FamilyRepositoryJpa implements FamilyRepository {
         String sortBy = ALLOWED_SORT_FIELDS.contains(query.sortBy()) ? query.sortBy() : "name";
         String sortDirection = "DESC".equalsIgnoreCase(query.sortDirection()) ? "DESC" : "ASC";
 
+        String escapedSearch = JpqlUtils.escapeLike(query.search());
+
         String jpql = "SELECT f FROM FamilyEntityJpa f WHERE (:search IS NULL OR LOWER(f.name) LIKE LOWER(CONCAT('%', :search, '%'))) ORDER BY f." + sortBy + " " + sortDirection;
         String countJpql = "SELECT COUNT(f) FROM FamilyEntityJpa f WHERE (:search IS NULL OR LOWER(f.name) LIKE LOWER(CONCAT('%', :search, '%')))";
 
         List<FamilyEntityJpa> entities = entityManager.createQuery(jpql, FamilyEntityJpa.class)
-                .setParameter("search", query.search())
+                .setParameter("search", escapedSearch)
                 .setFirstResult(query.page() * query.size())
                 .setMaxResults(query.size())
                 .getResultList();
 
         Long totalElements = entityManager.createQuery(countJpql, Long.class)
-                .setParameter("search", query.search())
+                .setParameter("search", escapedSearch)
                 .getSingleResult();
 
         List<Family> families = entities.stream()
