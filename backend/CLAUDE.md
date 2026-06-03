@@ -2,7 +2,7 @@
 
 ## Contexto do projeto
 
-- Backend Java 21 com Micronaut.
+- Backend Java 25 com Micronaut.
 - Build com Gradle Wrapper (`./gradlew`).
 - Persistencia com Micronaut Data e Hibernate JPA.
 - Banco principal configurado para MySQL.

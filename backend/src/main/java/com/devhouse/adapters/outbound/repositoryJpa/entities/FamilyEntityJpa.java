@@ -43,7 +43,7 @@ public class FamilyEntityJpa {
         FamilyEntityJpa entity = new FamilyEntityJpa();
         entity.setId(family.getId());
         entity.setName(family.getName());
-        entity.setVersion(family.getVersion());
+        entity.version = family.getVersion();
         entity.setCreatedAt(family.getCreatedDate());
         entity.setUpdatedAt(family.getUpdatedDate());
         
