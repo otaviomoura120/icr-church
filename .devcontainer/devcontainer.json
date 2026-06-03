@@ -1,0 +1,34 @@
+{
+  "name": "java-codex",
+  "dockerComposeFile": "../docker-compose.yaml",
+  "service": "backend",
+  "workspaceFolder": "/home/dev/icr-church",
+  "customizations": {
+   "vscode": {
+     "extensions": [
+      "vscjava.vscode-java-pack",
+      "redhat.java",
+      "antfu.vite",
+      "devlos.vuejs-snippets",
+      "vscjava.vscode-spring-boot-dashboard",
+      "TomaszRup.groovy-spock-support",
+      "mhutchie.git-graph",
+      "donjayamanne.githistory",
+      "waderyan.gitblame",
+      "GitHub.vscode-pull-request-github",
+      "PKief.material-icon-theme"
+    ]
+   }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+    },
+    "ghcr.io/devcontainers/features/git:1": {
+    },
+    "ghcr.io/devcontainers-extra/features/zsh-plugins:0": {
+      "plugins": "git git-flow F-Sy-H zsh-autosuggestions zsh-completions",
+      "omzPlugins": "https://github.com/z-shell/F-Sy-H https://github.com/zsh-users/zsh-autosuggestions https://github.com/zsh-users/zsh-completions"
+    }
+  },
+  "postCreateCommand": "java -version && claude --version"
+}

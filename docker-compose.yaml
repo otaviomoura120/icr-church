@@ -1,0 +1,100 @@
+services:
+
+  frontend:
+#    container_name: vueJS
+    build:
+      context: ./frontend
+      dockerfile: ./dev.Dockerfile
+    working_dir: /home/dev/icr-church/frontend
+    restart: on-failure:5
+
+    stdin_open: true
+    tty: true
+    cap_drop:
+      - ALL
+
+#    command: sh -c "pnpm install && pnpm run dev --host"
+    command: sh -c "pnpm install && tail -f /dev/null"
+
+    volumes:
+      - ./:/home/dev/icr-church:cached
+      - ~/.ssh/ed25519-codex:/home/dev/.ssh/id_ed25519:ro
+      - ~/.ssh/ed25519-codex.pub:/home/dev/.ssh/id_ed25519.pub:ro
+
+    ports:
+      - "5173:5173"
+
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+
+    networks:
+      - icr-church
+
+  backend:
+#    container_name: java-codex
+    build:
+      context: ./backend
+      dockerfile: ./dev.Dockerfile
+    working_dir: /home/dev/icr-church/backend
+    restart: on-failure:5
+
+    stdin_open: true
+    tty: true
+    cap_drop:
+      - ALL
+
+    security_opt:
+      - no-new-privileges:true
+
+    environment:
+      HOME: /home/dev
+
+    volumes:
+      - ./:/home/dev/icr-church:cached
+      - claude_data:/home/dev/.claude
+      - ~/.ssh/ed25519-codex:/home/dev/.ssh/id_ed25519:ro
+      - ~/.ssh/ed25519-codex.pub:/home/dev/.ssh/id_ed25519.pub:ro
+
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+
+    ports:
+      - "8080:8080"
+      - "5174:5173"
+    networks:
+      - icr-church
+
+  db:
+    image: mysql:8.4
+    restart: on-failure:5
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: icr
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql_data_icr:/var/lib/mysql
+
+    networks:
+      - icr-church
+
+volumes:
+  mysql_data_icr:
+  claude_data:
+
+networks:
+  icr-church:
