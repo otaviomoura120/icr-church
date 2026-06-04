@@ -52,8 +52,9 @@ public class BeanFactory {
     }
 
     @Bean
-    public DeleteFamilyInboundPort deleteFamilyInboundPort(FamilyRepository familyRepository) {
-        return new DeleteFamilyService(familyRepository);
+    public DeleteFamilyInboundPort deleteFamilyInboundPort(FamilyRepository familyRepository,
+                                                            MemberRepository memberRepository) {
+        return new DeleteFamilyService(familyRepository, memberRepository);
     }
 
     @Bean
@@ -82,8 +83,9 @@ public class BeanFactory {
     }
 
     @Bean
-    public DeleteCellChurchInboundPort deleteCellChurchInboundPort(CellChurchRepository cellChurchRepository) {
-        return new DeleteCellChurchService(cellChurchRepository);
+    public DeleteCellChurchInboundPort deleteCellChurchInboundPort(CellChurchRepository cellChurchRepository,
+                                                                    MemberRepository memberRepository) {
+        return new DeleteCellChurchService(cellChurchRepository, memberRepository);
     }
 
     @Bean

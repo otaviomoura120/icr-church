@@ -13,7 +13,7 @@ COPY . .
 #  # Allow install without lockfile, so example works even without Node.js installed locally
 #  else echo "Warning: Lockfile not found. It is recommended to commit lockfiles to version control." && yarn install; \
 #  fi
-RUN npm install -g pnpm
+# RUN npm install -g pnpm
 
 #RUN yarn global add pnpm && pnpm i;
 
@@ -34,12 +34,18 @@ RUN useradd -m -u ${UID} dev
 
 RUN mkdir -p /home/dev/.ssh && \
     chmod 700 /home/dev/.ssh && \
-    chown -R dev:dev /home/dev/.ssh
+    mkdir -p /home/dev/.npm-global && \
+    chown -R dev:dev /home/dev/.ssh && \
+    chown -R dev:dev /home/dev
 
-RUN mkdir -p /home/dev/.claude && \
-    chown -R dev:dev /home/dev/.claude
-
+#RUN mkdir -p /home/dev/.claude && \
+#    chown -R dev:dev /home/dev/.claude
 USER dev
+
+ENV NPM_CONFIG_PREFIX=/home/dev/.npm-global
+ENV PATH=$PATH:/home/dev/.npm-global/bin
+
+RUN npm install -g pnpm
 
 RUN ssh-keyscan github.com >> /home/dev/.ssh/known_hosts
 RUN chmod 644 /home/dev/.ssh/known_hosts

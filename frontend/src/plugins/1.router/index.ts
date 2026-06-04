@@ -8,7 +8,7 @@ import { createRouter, createWebHistory } from 'vue-router/auto'
 
 function recursiveLayouts(route: RouteRecordRaw): RouteRecordRaw {
 
-  route.beforeEnter = authGuard
+  // route.beforeEnter = authGuard
 
   if (route.children) {
     for (let i = 0; i < route.children.length; i++)

@@ -5,6 +5,11 @@ export default [
     icon: { icon: 'tabler-smart-home' },
   },
   {
+    title: 'Families',
+    to: { name: 'family' },
+    icon: { icon: 'tabler-users' },
+  },
+  {
     title: 'Second page',
     to: { name: 'second-page' },
     icon: { icon: 'tabler-file' },

@@ -21,8 +21,8 @@ services:
       - ~/.ssh/ed25519-codex:/home/dev/.ssh/id_ed25519:ro
       - ~/.ssh/ed25519-codex.pub:/home/dev/.ssh/id_ed25519.pub:ro
 
-    ports:
-      - "5173:5173"
+#    ports:
+#      - "5173:5173"
 
     depends_on:
       db:

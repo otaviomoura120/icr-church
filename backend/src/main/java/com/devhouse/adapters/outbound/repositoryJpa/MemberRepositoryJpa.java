@@ -73,6 +73,22 @@ public class MemberRepositoryJpa implements MemberRepository {
 
     @Override
     @ReadOnly
+    public long countByFamilyId(Long familyId) {
+        return entityManager.createQuery("SELECT COUNT(m) FROM MemberEntityJpa m WHERE m.family.id = :familyId", Long.class)
+                .setParameter("familyId", familyId)
+                .getSingleResult();
+    }
+
+    @Override
+    @ReadOnly
+    public long countByCellChurchId(Long cellChurchId) {
+        return entityManager.createQuery("SELECT COUNT(m) FROM MemberEntityJpa m WHERE m.cellChurch.id = :cellChurchId", Long.class)
+                .setParameter("cellChurchId", cellChurchId)
+                .getSingleResult();
+    }
+
+    @Override
+    @ReadOnly
     public PagedResult<Member> findAll(SearchQuery query) {
         String sortBy = ALLOWED_SORT_FIELDS.contains(query.sortBy()) ? query.sortBy() : "name";
         String sortDirection = "DESC".equalsIgnoreCase(query.sortDirection()) ? "DESC" : "ASC";

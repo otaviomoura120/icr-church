@@ -13,4 +13,6 @@ public interface MemberRepository {
     Optional<Member> findById(Long id);
     void delete(Long id);
     PagedResult<Member> findAll(SearchQuery query);
+    long countByFamilyId(Long familyId);
+    long countByCellChurchId(Long cellChurchId);
 }
